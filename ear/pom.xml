@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>ConsultaTranscaoContaCorrente</artifactId>
+        <groupId>br.gov.bnb</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>br.gov.bnb</groupId>
+    <artifactId>ear</artifactId>
+    <packaging>ear</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>br.gov.bnb</groupId>
+            <artifactId>ejb</artifactId>
+            <version>${project.version}</version>
+            <type>ejb</type>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>br.gov.bnb</groupId>
+            <artifactId>web</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-ear-plugin</artifactId>
+                <configuration>
+                    <filtering>true</filtering>
+
+                    <modules>
+                        <ejbModule>
+                            <groupId>br.gov.bnb</groupId>
+                            <artifactId>ejb</artifactId>
+                        </ejbModule>
+                        <webModule>
+                            <groupId>br.gov.bnb</groupId>
+                            <artifactId>web</artifactId>
+                            <context-root>/web</context-root>
+                        </webModule>
+                    </modules>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <configuration>
+                            <tasks>
+                                <property name="BUILD_DIR" value="${project.build.directory}" />
+                                <property name="NOME_ARQUIVO_EAR" value="${project.parent.artifactId}-${project.version}.ear" />
+                                <property name="VERSAO_WAR" value="${project.version}" />
+                                <property name="NOME_EJB" value="ejb-${project.version}" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>
